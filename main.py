@@ -2,21 +2,19 @@ import pygame
 from pygame.locals import *
 
 import gamelib
-from elements import Ball, Player
+from elements import Ball
+
+from player import Player
 
 class ItemFall(gamelib.SimpleGame):
     BLACK = pygame.Color('black')
     WHITE = pygame.Color('white')
-    GREEN = pygame.Color('green')
+    WINDOWS_SIZE_X = 800
+    WINDOWS_SIZE_Y = 600
     
     def __init__(self):
-        super(ItemFall, self).__init__('ItemFall', ItemFall.BLACK, window_size=(800, 600))
-        self.ball = Ball(radius=10,
-                         color=ItemFall.WHITE,
-                         pos=(self.window_size[0]/2,
-                              self.window_size[1]/2),
-                         speed=(200,50))
-        self.player = Player(self.window_size[0]/2, self.window_size[1])
+        super(ItemFall, self).__init__('ItemFall', ItemFall.BLACK, window_size=(ItemFall.WINDOWS_SIZE_X, ItemFall.WINDOWS_SIZE_Y))
+        self.player = Player(ItemFall.WINDOWS_SIZE_X, ItemFall.WINDOWS_SIZE_Y)
         self.score = 0
 
 
@@ -25,7 +23,7 @@ class ItemFall(gamelib.SimpleGame):
         self.render_score()
 
     def update(self):
-        self.ball.move(1./self.fps, self.surface, self.player)
+        #self.ball.move(1./self.fps, self.surface, self.player)
 
         if self.is_key_pressed(K_RIGHT):
             self.player.move_right()
@@ -41,7 +39,7 @@ class ItemFall(gamelib.SimpleGame):
         self.score_image = self.font.render("Score = %d" % self.score, 0, ItemFall.WHITE)
 
     def render(self, surface):
-        self.ball.render(surface)
+        #self.ball.render(surface)
         self.player.render(surface)
         surface.blit(self.score_image, (10,10))
 

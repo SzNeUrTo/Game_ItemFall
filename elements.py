@@ -32,27 +32,3 @@ class Ball(object):
         pos = (int(self.x),int(self.y))
         pygame.draw.circle(surface, self.color, pos, self.radius, 0)
 
-#########################################
-class Player(object):
-
-    WIDTH = 125
-    HIEGHT = 60
-
-    def __init__(self, posX, posY):
-        self.posX = posX
-        self.posY = posY - Player.HIEGHT
-        self.image = pygame.image.load('res/cup_player.png')
-        #self.color = color
-
-    #def can_hit(self, ball):
-    #    return self.pos-self.width/2.0 < ball.y < self.pos+self.width/2.0 \
-    #        and ball.x-ball.radius < self.THICKNESS
-
-    def move_right(self):
-        self.posX += 15
-
-    def move_left(self):
-        self.posX -= 15
-
-    def render(self, surface):
-        surface.blit(self.image, pygame.Rect(self.posX - self.WIDTH / 2, self.posY, Player.WIDTH, Player.HIEGHT))
