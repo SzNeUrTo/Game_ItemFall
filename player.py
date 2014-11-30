@@ -18,7 +18,7 @@ class Player(object):
         self.checkCollideBorderRight()
 
     def checkCollideBorderRight(self):
-        if self.posX - Player.WIDTH > self.windowSizeY :
+        if self.posX + self.WIDTH > self.windowSizeX :
             self.posX = 0
 
     def move_left(self):
