@@ -35,29 +35,24 @@ class Ball(object):
 #########################################
 class Player(object):
 
-    THICKNESS = 10
+    WIDTH = 125
+    HIEGHT = 60
 
-    def __init__(self, pos, color, width=100):
-        self.width = width
-        self.pos = pos
-        self.color = color
+    def __init__(self, posX, posY):
+        self.posX = posX
+        self.posY = posY - Player.HIEGHT
+        self.image = pygame.image.load('res/cup_player.png')
+        #self.color = color
 
-    def can_hit(self, ball):
-        return self.pos-self.width/2.0 < ball.y < self.pos+self.width/2.0 \
-            and ball.x-ball.radius < self.THICKNESS
+    #def can_hit(self, ball):
+    #    return self.pos-self.width/2.0 < ball.y < self.pos+self.width/2.0 \
+    #        and ball.x-ball.radius < self.THICKNESS
 
-    def move_up(self):
-        self.pos -= 5
+    def move_right(self):
+        self.posX += 15
 
-    def move_down(self):
-        self.pos += 5
+    def move_left(self):
+        self.posX -= 15
 
     def render(self, surface):
-        pygame.draw.rect(surface,
-                         self.color,
-                         pygame.Rect(self.pos - self.width/2.0,
-                                     300,
-                                     self.THICKNESS,
-                                     self.width),
-                         2)
-        
+        surface.blit(self.image, pygame.Rect(self.posX - self.WIDTH / 2, self.posY, Player.WIDTH, Player.HIEGHT))
