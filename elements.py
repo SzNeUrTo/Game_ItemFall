@@ -7,16 +7,22 @@ class Item(object):
 
     IMAGE_SIZE = 80
     def __init__(self, windowSizeX):
+        self.initValue(windowSizeX)
+
+    def initValue(self, windowSizeX) :
         self.positionX = random() * (windowSizeX - Item.IMAGE_SIZE)
         self.positionY = -Item.IMAGE_SIZE
         self.speedFall = 5
         self.image = pygame.image.load('res/fireball.png')
-        
+
     def update(self):
         self.move()
 
     def move(self):
         self.positionY += self.speedFall
+
+    def getPositionY(self):
+        return self.positionY
 
 
     def render(self, surface):

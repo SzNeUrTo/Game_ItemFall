@@ -26,6 +26,8 @@ class ItemFall(gamelib.SimpleGame):
     def update(self):
         self.updatePlayer()
         self.item.update()
+        if self.item.getPositionY() > ItemFall.WINDOWS_SIZE_Y :
+            self.item.initValue(ItemFall.WINDOWS_SIZE_X)
 
     def updatePlayer(self):
         if self.is_key_pressed(K_RIGHT):
