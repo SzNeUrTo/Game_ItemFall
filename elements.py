@@ -23,7 +23,7 @@ class Item(object):
 
     def getPositionY(self):
         return self.positionY
-
-
+    
     def render(self, surface):
-        surface.blit(self.image, pygame.Rect(self.positionX, self.positionY, Item.IMAGE_SIZE, Item.IMAGE_SIZE)) 
+        self.itemRect = pygame.Rect(self.positionX, self.positionY, Item.IMAGE_SIZE, Item.IMAGE_SIZE)
+        surface.blit(self.image, self.itemRect) 

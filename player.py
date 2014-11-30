@@ -7,6 +7,9 @@ class Player(object):
     HIEGHT_FROM_FLOOR = 60
 
     def __init__(self, windowSizeX, windowSizeY):
+        self.initValue(windowSizeX, windowSizeY)
+
+    def initValue(self, windowSizeX, windowSizeY):
         self.windowSizeX = windowSizeX
         self.windowSizeY = windowSizeY
         self.posX = self.windowSizeX / 2.0 - Player.WIDTH / 2.0 
@@ -30,4 +33,5 @@ class Player(object):
             self.posX = self.windowSizeX - Player.WIDTH
 
     def render(self, surface):
-        surface.blit(self.image, pygame.Rect(self.posX, self.posY, Player.WIDTH, Player.HIEGHT_FROM_FLOOR))
+        self.playerRect = pygame.Rect(self.posX, self.posY, Player.WIDTH, Player.HIEGHT_FROM_FLOOR)
+        surface.blit(self.image, self.playerRect)
