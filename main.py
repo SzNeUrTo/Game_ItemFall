@@ -4,17 +4,19 @@ from pygame.locals import *
 import gamelib
 
 from player import Player
+from elements import Item
 
 class ItemFall(gamelib.SimpleGame):
     BLACK = pygame.Color('black')
     WHITE = pygame.Color('white')
-    WINDOWS_SIZE_X = 1440
-    WINDOWS_SIZE_Y = 900
+    WINDOWS_SIZE_X = 800
+    WINDOWS_SIZE_Y = 600
     
     def __init__(self):
         super(ItemFall, self).__init__('ItemFall', ItemFall.BLACK, window_size=(ItemFall.WINDOWS_SIZE_X, ItemFall.WINDOWS_SIZE_Y))
         self.player = Player(ItemFall.WINDOWS_SIZE_X, ItemFall.WINDOWS_SIZE_Y)
         self.score = 0
+        self.item = Item(ItemFall.WINDOWS_SIZE_X)
 
 
     def init(self):
@@ -23,6 +25,7 @@ class ItemFall(gamelib.SimpleGame):
 
     def update(self):
         self.updatePlayer()
+        self.item.update()
 
     def updatePlayer(self):
         if self.is_key_pressed(K_RIGHT):
@@ -37,6 +40,7 @@ class ItemFall(gamelib.SimpleGame):
         #self.ball.render(surface)
         self.player.render(surface)
         surface.blit(self.score_image, (10,10))
+        self.item.render(surface)
 
 def main():
     game = ItemFall()
