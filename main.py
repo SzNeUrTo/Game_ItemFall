@@ -32,9 +32,11 @@ class ItemFall(gamelib.SimpleGame):
         self.updateItem()
     
     def updateItem(self):
+        print len(self.items)
         for item in self.items :
             item.update()
             if item.getPositionY() > ItemFall.WINDOWS_SIZE_Y :
+                self.items.remove(item) # test delete
                 item.initValue(ItemFall.WINDOWS_SIZE_X, self.selectFileName())
             if item.deleteAble() :
                 self.items.remove(item)
