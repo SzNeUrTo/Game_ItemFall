@@ -1,4 +1,5 @@
 import pygame
+from random import randrange
 from pygame.locals import *
 
 import gamelib
@@ -11,13 +12,16 @@ class ItemFall(gamelib.SimpleGame):
     WHITE = pygame.Color('white')
     WINDOWS_SIZE_X = 800
     WINDOWS_SIZE_Y = 600
+    LIST_ITEM_PLUS_MINUS = ['plus', 'minus']
+    LIST_ITEM_NUMBER = [0] * 1 + range(1, 12) * 7
     
     def __init__(self):
         super(ItemFall, self).__init__('ItemFall', ItemFall.BLACK, window_size=(ItemFall.WINDOWS_SIZE_X, ItemFall.WINDOWS_SIZE_Y))
         self.player = Player(ItemFall.WINDOWS_SIZE_X, ItemFall.WINDOWS_SIZE_Y)
         self.score = 0
-        self.item = Item(ItemFall.WINDOWS_SIZE_X)
+        self.item = Item(ItemFall.WINDOWS_SIZE_X, self.selectFileName())
 
+        self.items = []
 
     def init(self):
         super(ItemFall, self).init()
@@ -26,9 +30,13 @@ class ItemFall(gamelib.SimpleGame):
     def update(self):
         self.updatePlayer()
         self.item.update()
+        # collide border floor 
         if self.item.getPositionY() > ItemFall.WINDOWS_SIZE_Y :
-            self.item.initValue(ItemFall.WINDOWS_SIZE_X)
+            self.item.initValue(ItemFall.WINDOWS_SIZE_X, self.selectFileName())
+        # collide border floor
 
+    def selectFileName(self) :
+        return str(ItemFall.LIST_ITEM_PLUS_MINUS[randrange(0, 2)]) + '_' + str(ItemFall.LIST_ITEM_NUMBER[randrange(0, len(ItemFall.LIST_ITEM_NUMBER))])
     def updatePlayer(self):
         if self.is_key_pressed(K_RIGHT):
             self.player.move_right()

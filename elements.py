@@ -6,14 +6,14 @@ from random import random
 class Item(object):
 
     IMAGE_SIZE = 80
-    def __init__(self, windowSizeX):
-        self.initValue(windowSizeX)
+    def __init__(self, windowSizeX, selectfile):
+        self.initValue(windowSizeX, selectfile)
 
-    def initValue(self, windowSizeX) :
+    def initValue(self, windowSizeX, selectfile) :
         self.positionX = random() * (windowSizeX - Item.IMAGE_SIZE)
         self.positionY = -Item.IMAGE_SIZE
         self.speedFall = 5
-        self.image = pygame.image.load('res/fireball.png')
+        self.image = pygame.image.load('res/'+ selectfile +'.png')
 
     def update(self):
         self.move()
