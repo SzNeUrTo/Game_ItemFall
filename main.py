@@ -12,7 +12,7 @@ class ItemFall(gamelib.SimpleGame):
     WHITE = pygame.Color('white')
     WINDOWS_SIZE_X = 800
     WINDOWS_SIZE_Y = 600
-    DEFAULT_LIST_ITEM_PLUS_MINUS = ['plus', 'minus']
+    DEFAULT_LIST_ITEM_PLUS_MINUS = ['plus'] * 4 + ['minus']
     LIST_ITEM_NUMBER = [0] * 1 + range(1, 12) * 7
     
     def __init__(self):
@@ -20,9 +20,8 @@ class ItemFall(gamelib.SimpleGame):
         self.player = Player(ItemFall.WINDOWS_SIZE_X, ItemFall.WINDOWS_SIZE_Y)
         self.score = 0
         self.effectPoint = ItemFall.DEFAULT_LIST_ITEM_PLUS_MINUS
-        self.item = Item(ItemFall.WINDOWS_SIZE_X, self.selectFileName())
 
-        self.items = [] #plan
+        self.items = [Item(ItemFall.WINDOWS_SIZE_X, self.selectFileName())]
 
     def init(self):
         super(ItemFall, self).init()
@@ -30,14 +29,19 @@ class ItemFall(gamelib.SimpleGame):
 
     def update(self):
         self.updatePlayer()
-        self.item.update()
-        # collide border floor 
-        if self.item.getPositionY() > ItemFall.WINDOWS_SIZE_Y :
-            self.item.initValue(ItemFall.WINDOWS_SIZE_X, self.selectFileName())
-        # collide border floor
+        self.updateItem()
+    
+    def updateItem(self):
+        for item in self.items :
+            item.update()
+            if item.getPositionY() > ItemFall.WINDOWS_SIZE_Y :
+                item.initValue(ItemFall.WINDOWS_SIZE_X, self.selectFileName())
+            if item.deleteAble() :
+                self.items.remove(item)
+
 
     def selectFileName(self) :
-        return str(self.effectPoint[randrange(0, 2)]) + '_' + str(ItemFall.LIST_ITEM_NUMBER[randrange(0, len(ItemFall.LIST_ITEM_NUMBER))])
+        return str(self.effectPoint[randrange(0, len(self.effectPoint))]) + '_' + str(ItemFall.LIST_ITEM_NUMBER[randrange(0, len(ItemFall.LIST_ITEM_NUMBER))])
 
     def updatePlayer(self):
         if self.is_key_pressed(K_RIGHT):
@@ -52,7 +56,11 @@ class ItemFall(gamelib.SimpleGame):
         #self.ball.render(surface)
         self.player.render(surface)
         surface.blit(self.score_image, (10,10))
-        self.item.render(surface)
+        self.renderItem(surface)
+
+    def renderItem(self, surface):
+        for item in self.items :
+            item.render(surface)
 
 def main():
     game = ItemFall()

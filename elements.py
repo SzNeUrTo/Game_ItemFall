@@ -14,6 +14,10 @@ class Item(object):
         self.positionY = -Item.IMAGE_SIZE
         self.speedFall = 5
         self.image = pygame.image.load('res/'+ selectfile +'.png')
+        self.canDelete = False
+    
+    def deleteAble(self) :
+        return self.canDelete
 
     def update(self):
         self.move()
