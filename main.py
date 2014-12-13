@@ -12,16 +12,17 @@ class ItemFall(gamelib.SimpleGame):
     WHITE = pygame.Color('white')
     WINDOWS_SIZE_X = 800
     WINDOWS_SIZE_Y = 600
-    LIST_ITEM_PLUS_MINUS = ['plus', 'minus']
+    DEFAULT_LIST_ITEM_PLUS_MINUS = ['plus', 'minus']
     LIST_ITEM_NUMBER = [0] * 1 + range(1, 12) * 7
     
     def __init__(self):
         super(ItemFall, self).__init__('ItemFall', ItemFall.BLACK, window_size=(ItemFall.WINDOWS_SIZE_X, ItemFall.WINDOWS_SIZE_Y))
         self.player = Player(ItemFall.WINDOWS_SIZE_X, ItemFall.WINDOWS_SIZE_Y)
         self.score = 0
+        self.effectPoint = ItemFall.DEFAULT_LIST_ITEM_PLUS_MINUS
         self.item = Item(ItemFall.WINDOWS_SIZE_X, self.selectFileName())
 
-        self.items = []
+        self.items = [] #plan
 
     def init(self):
         super(ItemFall, self).init()
@@ -36,7 +37,8 @@ class ItemFall(gamelib.SimpleGame):
         # collide border floor
 
     def selectFileName(self) :
-        return str(ItemFall.LIST_ITEM_PLUS_MINUS[randrange(0, 2)]) + '_' + str(ItemFall.LIST_ITEM_NUMBER[randrange(0, len(ItemFall.LIST_ITEM_NUMBER))])
+        return str(self.effectPoint[randrange(0, 2)]) + '_' + str(ItemFall.LIST_ITEM_NUMBER[randrange(0, len(ItemFall.LIST_ITEM_NUMBER))])
+
     def updatePlayer(self):
         if self.is_key_pressed(K_RIGHT):
             self.player.move_right()
