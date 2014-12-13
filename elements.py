@@ -27,6 +27,12 @@ class Item(object):
 
     def getPositionY(self):
         return self.positionY
+
+    def getPositionX(self):
+        return self.positionX
+
+    def getImageSize(self):
+        return Item.IMAGE_SIZE
     
     def render(self, surface):
         self.itemRect = pygame.Rect(self.positionX, self.positionY, Item.IMAGE_SIZE, Item.IMAGE_SIZE)

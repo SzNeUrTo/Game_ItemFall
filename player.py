@@ -32,6 +32,12 @@ class Player(object):
         if self.posX < 0 :
             self.posX = self.windowSizeX - Player.WIDTH
 
+    def getPositionX(self):
+        return self.posX
+
+    def getWidth(self):
+        return Player.WIDTH
+
     def render(self, surface):
         self.playerRect = pygame.Rect(self.posX, self.posY, Player.WIDTH, Player.HIEGHT_FROM_FLOOR)
         surface.blit(self.image, self.playerRect)

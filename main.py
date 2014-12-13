@@ -35,9 +35,16 @@ class ItemFall(gamelib.SimpleGame):
         print len(self.items)
         for item in self.items :
             item.update()
-            if item.getPositionY() > ItemFall.WINDOWS_SIZE_Y :
-                self.items.remove(item) # test delete
-                item.initValue(ItemFall.WINDOWS_SIZE_X, self.selectFileName())
+            #collidePlayer(self)
+            if item.getPositionY() + item.getImageSize() / 2 > ItemFall.WINDOWS_SIZE_Y :
+                centerXItem = item.getPositionX() + item.getImageSize() / 2
+                centerXPlayer = self.player.getPositionX() + self.player.getWidth() / 2
+                deltaCenterX = item.getImageSize() / 2 + self.player.getWidth() / 2
+                #self.items.remove(item)
+                if -deltaCenterX < centerXItem - centerXPlayer < deltaCenterX :
+                    self.items.remove(item)
+                #item.initValue(ItemFall.WINDOWS_SIZE_X, self.selectFileName())
+            
             if item.deleteAble() :
                 self.items.remove(item)
 
@@ -55,7 +62,6 @@ class ItemFall(gamelib.SimpleGame):
         self.score_image = self.font.render("Score = %d" % self.score, 0, ItemFall.WHITE)
 
     def render(self, surface):
-        #self.ball.render(surface)
         self.player.render(surface)
         surface.blit(self.score_image, (10,10))
         self.renderItem(surface)
