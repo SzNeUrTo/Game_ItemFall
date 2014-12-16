@@ -40,8 +40,12 @@ class ItemFall(gamelib.SimpleGame):
             #print pygame.time.get_ticks() / 1000
             self.updatePlayer()
             self.statusItemFall()
+            self.updateScore()
             self.updateItem()
             #print pygame.time.get_ticks()
+
+    def updateScore(self):
+        self.score += 1
 
     def statusItemFall(self):
         #plus speed
@@ -84,6 +88,7 @@ class ItemFall(gamelib.SimpleGame):
         self.player.render(surface)
         surface.blit(self.score_image, (10,10))
         self.renderItem(surface)
+        self.render_score()
 
     def renderItem(self, surface):
         for item in self.items :
