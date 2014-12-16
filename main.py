@@ -28,24 +28,21 @@ class ItemFall(gamelib.SimpleGame):
         self.player = Player(ItemFall.WINDOWS_SIZE_X, ItemFall.WINDOWS_SIZE_Y)
         self.score = 0
         self.effectPoint = ItemFall.DEFAULT_LIST_ITEM_PLUS_MINUS
-        self.isGameOver = False
         self.addItem()
+        self.isGameOver = False
     
 
     def addItem(self):
         self.items = [Item(ItemFall.WINDOWS_SIZE_X, self.selectFileName())]
 
     def update(self):
+        
         if not self.isGameOver :
-            #print pygame.time.get_ticks() / 1000
+        #if pygame.time.get_ticks() < 2000 :
             self.updatePlayer()
             self.statusItemFall()
-            self.updateScore()
             self.updateItem()
             #print pygame.time.get_ticks()
-
-    def updateScore(self):
-        self.score += 1
 
     def statusItemFall(self):
         #plus speed
@@ -58,19 +55,25 @@ class ItemFall(gamelib.SimpleGame):
         #print len(self.items)
         for item in self.items :
             item.update()
-            #collidePlayer(self)
+            if self.itemCollidePlayer(item) :
+                print 'delete'
+                continue
+                
             self.itemCollideFloor(item)
-            if item.deleteAble() :
-                self.items.remove(item)
 
     def itemCollideFloor(self, item):
-        if item.getPositionY() + item.getImageSize() / 2 > ItemFall.WINDOWS_SIZE_Y :
+        if item.getPositionY() > ItemFall.WINDOWS_SIZE_Y:
+            self.items.remove(item)
+
+    def itemCollidePlayer(self, item):
+        if item.getPositionY() + item.getImageSize()  > self.player.getPositionY() :
             centerXItem = item.getPositionX() + item.getImageSize() / 2
             centerXPlayer = self.player.getPositionX() + self.player.getWidth() / 2
             deltaCenterX = item.getImageSize() / 2 + self.player.getWidth() / 2
-            #self.items.remove(item)
+            self.score += item.getPoint()
             if -deltaCenterX < centerXItem - centerXPlayer < deltaCenterX :
                 self.items.remove(item)
+                return True
 
     def selectFileName(self) :
         return str(self.effectPoint[randrange(0, len(self.effectPoint))]) + '_' + str(ItemFall.LIST_ITEM_NUMBER[randrange(0, len(ItemFall.LIST_ITEM_NUMBER))])

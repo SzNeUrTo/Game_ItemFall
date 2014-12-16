@@ -35,6 +35,9 @@ class Player(object):
     def getPositionX(self):
         return self.posX
 
+    def getPositionY(self):
+        return self.posY
+
     def getWidth(self):
         return Player.WIDTH
 
