@@ -1,6 +1,7 @@
 import pygame
 from random import randrange
 from pygame.locals import *
+import time
 
 import gamelib
 
@@ -10,44 +11,62 @@ from elements import Item
 class ItemFall(gamelib.SimpleGame):
     BLACK = pygame.Color('black')
     WHITE = pygame.Color('white')
-    WINDOWS_SIZE_X = 800
-    WINDOWS_SIZE_Y = 600
+    WINDOWS_SIZE_X = 1440
+    WINDOWS_SIZE_Y = 900
     DEFAULT_LIST_ITEM_PLUS_MINUS = ['plus'] * 4 + ['minus']
     LIST_ITEM_NUMBER = [0] * 1 + range(1, 12) * 7
     
     def __init__(self):
         super(ItemFall, self).__init__('ItemFall', ItemFall.BLACK, window_size=(ItemFall.WINDOWS_SIZE_X, ItemFall.WINDOWS_SIZE_Y))
-        self.player = Player(ItemFall.WINDOWS_SIZE_X, ItemFall.WINDOWS_SIZE_Y)
-        self.score = 0
-        self.effectPoint = ItemFall.DEFAULT_LIST_ITEM_PLUS_MINUS
-
-        self.items = [Item(ItemFall.WINDOWS_SIZE_X, self.selectFileName())]
+        self.initValue()
 
     def init(self):
         super(ItemFall, self).init()
         self.render_score()
 
+    def initValue(self):
+        self.player = Player(ItemFall.WINDOWS_SIZE_X, ItemFall.WINDOWS_SIZE_Y)
+        self.score = 0
+        self.effectPoint = ItemFall.DEFAULT_LIST_ITEM_PLUS_MINUS
+        self.isGameOver = False
+        self.addItem()
+    
+
+    def addItem(self):
+        self.items = [Item(ItemFall.WINDOWS_SIZE_X, self.selectFileName())]
+
     def update(self):
-        self.updatePlayer()
-        self.updateItem()
+        if not self.isGameOver :
+            #print pygame.time.get_ticks() / 1000
+            self.updatePlayer()
+            self.statusItemFall()
+            self.updateItem()
+            #print pygame.time.get_ticks()
+
+    def statusItemFall(self):
+        #plus speed
+        #minus speed
+        #speed
+        if False:
+            self.addItem()
     
     def updateItem(self):
-        print len(self.items)
+        #print len(self.items)
         for item in self.items :
             item.update()
             #collidePlayer(self)
-            if item.getPositionY() + item.getImageSize() / 2 > ItemFall.WINDOWS_SIZE_Y :
-                centerXItem = item.getPositionX() + item.getImageSize() / 2
-                centerXPlayer = self.player.getPositionX() + self.player.getWidth() / 2
-                deltaCenterX = item.getImageSize() / 2 + self.player.getWidth() / 2
-                #self.items.remove(item)
-                if -deltaCenterX < centerXItem - centerXPlayer < deltaCenterX :
-                    self.items.remove(item)
-                #item.initValue(ItemFall.WINDOWS_SIZE_X, self.selectFileName())
-            
+            self.itemCollideFloor(item)
             if item.deleteAble() :
                 self.items.remove(item)
 
+    def itemCollideFloor(self, item):
+        if item.getPositionY() + item.getImageSize() / 2 > ItemFall.WINDOWS_SIZE_Y :
+            centerXItem = item.getPositionX() + item.getImageSize() / 2
+            centerXPlayer = self.player.getPositionX() + self.player.getWidth() / 2
+            deltaCenterX = item.getImageSize() / 2 + self.player.getWidth() / 2
+            #self.items.remove(item)
+            if -deltaCenterX < centerXItem - centerXPlayer < deltaCenterX :
+                self.items.remove(item)
 
     def selectFileName(self) :
         return str(self.effectPoint[randrange(0, len(self.effectPoint))]) + '_' + str(ItemFall.LIST_ITEM_NUMBER[randrange(0, len(ItemFall.LIST_ITEM_NUMBER))])

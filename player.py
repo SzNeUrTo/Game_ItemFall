@@ -17,7 +17,7 @@ class Player(object):
         self.image = pygame.image.load('res/cup_player.png')
 
     def move_right(self):
-        self.posX += 15
+        self.posX += 10
         self.checkCollideBorderRight()
 
     def checkCollideBorderRight(self):
@@ -25,7 +25,7 @@ class Player(object):
             self.posX = 0
 
     def move_left(self):
-        self.posX -= 15
+        self.posX -= 10
         self.checkCollideBorderLeft()
 
     def checkCollideBorderLeft(self):

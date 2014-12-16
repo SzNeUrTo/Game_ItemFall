@@ -33,7 +33,7 @@ class Item(object):
 
     def getImageSize(self):
         return Item.IMAGE_SIZE
-    
+
     def render(self, surface):
         self.itemRect = pygame.Rect(self.positionX, self.positionY, Item.IMAGE_SIZE, Item.IMAGE_SIZE)
         surface.blit(self.image, self.itemRect) 

@@ -18,7 +18,7 @@ class SimpleGame(object):
     def __game_init(self):
         pygame.init()
         self.clock = pygame.time.Clock()
-        self.surface = pygame.display.set_mode(self.window_size)
+        self.surface = pygame.display.set_mode(self.window_size, pygame.FULLSCREEN)
         pygame.display.set_caption(self.title)
         self.font = pygame.font.SysFont("monospace", 20)
 
