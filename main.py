@@ -13,7 +13,7 @@ class ItemFall(gamelib.SimpleGame):
     WHITE = pygame.Color('white')
     WINDOWS_SIZE_X = 1440
     WINDOWS_SIZE_Y = 900
-    DEFAULT_LIST_ITEM_PLUS_MINUS = ['plus'] * 4 + ['minus']
+    DEFAULT_LIST_ITEM_PLUS_MINUS = ['plus'] * 2 + ['minus']
     LIST_ITEM_NUMBER = [0] * 1 + range(1, 12) * 7
     
     def __init__(self):
@@ -28,12 +28,13 @@ class ItemFall(gamelib.SimpleGame):
         self.player = Player(ItemFall.WINDOWS_SIZE_X, ItemFall.WINDOWS_SIZE_Y)
         self.score = 0
         self.effectPoint = ItemFall.DEFAULT_LIST_ITEM_PLUS_MINUS
+        self.items = []
         self.addItem()
         self.isGameOver = False
     
 
     def addItem(self):
-        self.items = [Item(ItemFall.WINDOWS_SIZE_X, self.selectFileName())]
+        self.items += [Item(ItemFall.WINDOWS_SIZE_X, self.selectFileName())]
 
     def update(self):
         
@@ -53,6 +54,9 @@ class ItemFall(gamelib.SimpleGame):
     
     def updateItem(self):
         #print len(self.items)
+        deltatime = pygame.time.get_ticks() / 1500
+        for x in range(len(self.items), deltatime - len(self.items)) :
+            self.addItem()
         for item in self.items :
             item.update()
             if self.itemCollidePlayer(item) :
@@ -63,6 +67,9 @@ class ItemFall(gamelib.SimpleGame):
 
     def itemCollideFloor(self, item):
         if item.getPositionY() > ItemFall.WINDOWS_SIZE_Y:
+            if item.getPoint() > 0 :
+                self.score = self.score - item.getPoint() * 100 
+
             self.items.remove(item)
 
     def itemCollidePlayer(self, item):
@@ -70,9 +77,10 @@ class ItemFall(gamelib.SimpleGame):
             centerXItem = item.getPositionX() + item.getImageSize() / 2
             centerXPlayer = self.player.getPositionX() + self.player.getWidth() / 2
             deltaCenterX = item.getImageSize() / 2 + self.player.getWidth() / 2
-            self.score += item.getPoint()
             if -deltaCenterX < centerXItem - centerXPlayer < deltaCenterX :
                 self.items.remove(item)
+                self.addItem()
+                self.score = self.score + item.getPoint()
                 return True
 
     def selectFileName(self) :

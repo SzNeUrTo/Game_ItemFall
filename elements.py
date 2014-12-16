@@ -14,7 +14,6 @@ class Item(object):
 
     def initValue(self, windowSizeX, selectfile) :
         self.initPoint(selectfile)
-#type
         self.positionX = random() * (windowSizeX - Item.IMAGE_SIZE)
         self.positionY = -Item.IMAGE_SIZE # + random because item not fall in same time
         self.speedFall = 5
@@ -22,14 +21,23 @@ class Item(object):
 
     def initPoint(self, selectfile):
         self.type = selectfile.split('_')
-        if self.type[0] == 'Plus':
+
+        print 'type'
+        print self.type
+
+        if self.type[0] == 'plus':
             self.initPointPlus()
+            print 'plus'
         else:
             self.initPointMinus()
+            print 'minus'
+
+        self.type = self.type[1]
     
     def initPointPlus(self):
         index = int(self.type[1])
         self.point = Item.POINT_VAL_PLUS[index]
+        print 'index ' + str(index) + ' ' + str(self.point)
 
     def initPointMinus(self):
         index = int(self.type[1])
@@ -39,7 +47,7 @@ class Item(object):
         self.move()
 
     def move(self):
-        self.positionY += self.speedFall
+        self.positionY += self.speedFall #ratio
 
     def getPositionY(self):
         return self.positionY
@@ -52,6 +60,9 @@ class Item(object):
 
     def getPoint(self):
         return self.point
+
+    def getType(self):
+        return self.type
 
     def render(self, surface):
         self.itemRect = pygame.Rect(self.positionX, self.positionY, Item.IMAGE_SIZE, Item.IMAGE_SIZE)
