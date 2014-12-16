@@ -7,7 +7,7 @@ class Item(object):
 
     IMAGE_SIZE = 80
     POINT_VAL_PLUS = [0, 200, 300, 400, 5000, 1000, 800, 700, 500, 2000, 3500, 600]
-    POINT_VAL_MINUS = [0, -100, -200, -300, -1000, -200, -200, -500, -1000, -400, -300, -700]
+    POINT_VAL_MINUS = [0, -100, -200, -300, -1000000, -200, -200, -500, -1000, -400, -300, -700]
 
     def __init__(self, windowSizeX, selectfile):
         self.initValue(windowSizeX, selectfile)
@@ -16,7 +16,7 @@ class Item(object):
         self.initPoint(selectfile)
         self.positionX = random() * (windowSizeX - Item.IMAGE_SIZE)
         self.positionY = -Item.IMAGE_SIZE # + random because item not fall in same time
-        self.speedFall = 5
+        self.speedFall = 6
         self.image = pygame.image.load('res/'+ selectfile +'.png')
 
     def initPoint(self, selectfile):
@@ -27,12 +27,15 @@ class Item(object):
 
         if self.type[0] == 'plus':
             self.initPointPlus()
-            print 'plus'
+            self.type =  int(self.type[1])
+            if self.point == 0:
+                self.type = 12345
         else:
             self.initPointMinus()
-            print 'minus'
-
-        self.type = self.type[1]
+            self.type =  -int(self.type[1])
+            print 'type' + str(self.type)
+            if self.point == 0:
+                self.type = -12345
     
     def initPointPlus(self):
         index = int(self.type[1])

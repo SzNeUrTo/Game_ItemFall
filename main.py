@@ -13,8 +13,8 @@ class ItemFall(gamelib.SimpleGame):
     WHITE = pygame.Color('white')
     WINDOWS_SIZE_X = 1440
     WINDOWS_SIZE_Y = 900
-    DEFAULT_LIST_ITEM_PLUS_MINUS = ['plus'] * 2 + ['minus']
-    LIST_ITEM_NUMBER = [0] * 1 + range(1, 12) * 7
+    DEFAULT_LIST_ITEM_PLUS_MINUS = ['plus'] * 1 + ['minus']
+    LIST_ITEM_NUMBER = [0] * 10 + range(1, 12) * 7 + [4] * 40
     
     def __init__(self):
         super(ItemFall, self).__init__('ItemFall', ItemFall.BLACK, window_size=(ItemFall.WINDOWS_SIZE_X, ItemFall.WINDOWS_SIZE_Y))
@@ -31,6 +31,7 @@ class ItemFall(gamelib.SimpleGame):
         self.items = []
         self.addItem()
         self.isGameOver = False
+        self.setTimeInterval = 0
     
 
     def addItem(self):
@@ -54,7 +55,11 @@ class ItemFall(gamelib.SimpleGame):
     
     def updateItem(self):
         #print len(self.items)
-        deltatime = pygame.time.get_ticks() / 1500
+        deltatime = pygame.time.get_ticks() / 500
+        if deltatime > self.setTimeInterval :
+            self.setTimeInterval = deltatime
+            ItemFall.LIST_ITEM_NUMBER += [4]
+
         for x in range(len(self.items), deltatime - len(self.items)) :
             self.addItem()
         for item in self.items :
@@ -68,8 +73,11 @@ class ItemFall(gamelib.SimpleGame):
     def itemCollideFloor(self, item):
         if item.getPositionY() > ItemFall.WINDOWS_SIZE_Y:
             if item.getPoint() > 0 :
-                self.score = self.score - item.getPoint() * 100 
-
+                self.score = self.score - item.getPoint() / 4
+            #if self.getType() == 12345 :
+            #    self.fps = 30
+            #    status1on = True
+            #if self.getType() == -12345 :
             self.items.remove(item)
 
     def itemCollidePlayer(self, item):
@@ -80,6 +88,9 @@ class ItemFall(gamelib.SimpleGame):
             if -deltaCenterX < centerXItem - centerXPlayer < deltaCenterX :
                 self.items.remove(item)
                 self.addItem()
+                if item.getPoint() < -100000:
+                    self.isGameOver = True
+                    return True
                 self.score = self.score + item.getPoint()
                 return True
 
