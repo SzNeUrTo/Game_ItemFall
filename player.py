@@ -15,9 +15,10 @@ class Player(object):
         self.posX = self.windowSizeX / 2.0 - Player.WIDTH / 2.0 
         self.posY = self.windowSizeY - Player.HIEGHT_FROM_FLOOR
         self.image = pygame.image.load('res/cup_player.png')
+        self.speed = 15
 
     def move_right(self):
-        self.posX += 10
+        self.posX += self.speed
         self.checkCollideBorderRight()
 
     def checkCollideBorderRight(self):
@@ -25,7 +26,7 @@ class Player(object):
             self.posX = 0
 
     def move_left(self):
-        self.posX -= 10
+        self.posX -= self.speed
         self.checkCollideBorderLeft()
 
     def checkCollideBorderLeft(self):

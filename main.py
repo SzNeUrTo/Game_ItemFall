@@ -38,13 +38,13 @@ class ItemFall(gamelib.SimpleGame):
         self.items += [Item(ItemFall.WINDOWS_SIZE_X, self.selectFileName())]
 
     def update(self):
-        
         if not self.isGameOver :
         #if pygame.time.get_ticks() < 2000 :
             self.updatePlayer()
             self.statusItemFall()
             self.updateItem()
             #print pygame.time.get_ticks()
+
 
     def statusItemFall(self):
         #plus speed
@@ -104,7 +104,10 @@ class ItemFall(gamelib.SimpleGame):
             self.player.move_left()
         
     def render_score(self):
-        self.score_image = self.font.render("Score = %d" % self.score, 0, ItemFall.WHITE)
+        if not self.isGameOver :
+            self.score_image = self.font.render("Score = %d" % self.score, 0, ItemFall.WHITE)
+        else :
+            self.score_image = self.font.render("GAMEOVER SCORE = %d" % self.score, 0, ItemFall.WHITE)
 
     def render(self, surface):
         self.player.render(surface)
