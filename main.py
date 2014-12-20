@@ -81,7 +81,7 @@ class ItemFall(gamelib.SimpleGame):
             self.items.remove(item)
 
     def itemCollidePlayer(self, item):
-        if item.getPositionY() + item.getImageSize()  > self.player.getPositionY() + 5:
+        if item.getPositionY() + item.getImageSize() + 5> self.player.getPositionY():
             centerXItem = item.getPositionX() + item.getImageSize() / 2
             centerXPlayer = self.player.getPositionX() + self.player.getWidth() / 2
             deltaCenterX = item.getImageSize() / 2 + self.player.getWidth() / 2
@@ -110,10 +110,10 @@ class ItemFall(gamelib.SimpleGame):
             self.score_image = self.font.render("GAMEOVER SCORE = %d" % self.score, 0, ItemFall.WHITE)
 
     def render(self, surface):
+        self.render_score()
         self.player.render(surface)
         surface.blit(self.score_image, (10,10))
         self.renderItem(surface)
-        self.render_score()
 
     def renderItem(self, surface):
         for item in self.items :
