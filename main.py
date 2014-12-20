@@ -81,16 +81,16 @@ class ItemFall(gamelib.SimpleGame):
             self.items.remove(item)
 
     def itemCollidePlayer(self, item):
-        if item.getPositionY() + item.getImageSize()  > self.player.getPositionY() :
+        if item.getPositionY() + item.getImageSize()  > self.player.getPositionY() + 5:
             centerXItem = item.getPositionX() + item.getImageSize() / 2
             centerXPlayer = self.player.getPositionX() + self.player.getWidth() / 2
             deltaCenterX = item.getImageSize() / 2 + self.player.getWidth() / 2
-            if -deltaCenterX < centerXItem - centerXPlayer < deltaCenterX :
-                self.items.remove(item)
+            if -deltaCenterX + 10 < centerXItem - centerXPlayer < deltaCenterX - 10:
                 self.addItem()
                 if item.getPoint() < -100000:
                     self.isGameOver = True
                     return True
+                self.items.remove(item)
                 self.score = self.score + item.getPoint()
                 return True
 
