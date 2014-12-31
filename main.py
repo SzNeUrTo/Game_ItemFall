@@ -13,7 +13,7 @@ class ItemFall(gamelib.SimpleGame):
     WHITE = pygame.Color('white')
     WINDOWS_SIZE_X = 1440
     WINDOWS_SIZE_Y = 900
-    DEFAULT_LIST_ITEM_PLUS_MINUS = ['plus'] * 1 + ['minus']
+    DEFAULT_LIST_ITEM_PLUS_MINUS = ['plus'] * 1 + ['minus'] * 1
     LIST_ITEM_NUMBER = [0] * 10 + range(1, 12) * 7 + [4] * 40
     
     def __init__(self):
@@ -81,11 +81,11 @@ class ItemFall(gamelib.SimpleGame):
             self.items.remove(item)
 
     def itemCollidePlayer(self, item):
-        if item.getPositionY() + item.getImageSize() + 5> self.player.getPositionY():
+        if item.getPositionY() + item.getImageSize() - 5 > self.player.getPositionY():
             centerXItem = item.getPositionX() + item.getImageSize() / 2
             centerXPlayer = self.player.getPositionX() + self.player.getWidth() / 2
             deltaCenterX = item.getImageSize() / 2 + self.player.getWidth() / 2
-            if -deltaCenterX + 10 < centerXItem - centerXPlayer < deltaCenterX - 10:
+            if ((centerXItem - centerXPlayer)**2)**0.5  < deltaCenterX - 20 :
                 self.addItem()
                 if item.getPoint() < -100000:
                     self.isGameOver = True
